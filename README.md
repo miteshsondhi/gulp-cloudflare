@@ -18,8 +18,7 @@ gulp.task('purge-cdn-cache', function() {
 	var options = {
 		token  : 'token',
 		email  : 'email',
-		domain : 'domain',
-		skip   : false
+		domain : 'domain'
 	};
 
 	cloudflare(options);
