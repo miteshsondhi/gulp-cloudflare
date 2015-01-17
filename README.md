@@ -1,8 +1,4 @@
-(PLUGIN AUTHOR: Please read [Plugin README conventions](https://github.com/wearefractal/gulp/wiki/Plugin-README-Conventions), then delete this line)
-
 # gulp-cloudflare
-[![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url]  [![Coverage Status][coveralls-image]][coveralls-url] [![Dependency Status][depstat-image]][depstat-url]
-
 > cloudflare plugin for [gulp](https://github.com/wearefractal/gulp)
 
 ## Usage
@@ -26,7 +22,7 @@ gulp.task('purge-cdn-cache', function() {
 		skip   : false
 	};
 
-	cloudflare(params);
+	cloudflare(options);
 })
 ```
 
@@ -49,7 +45,27 @@ Required: false
 
 
 
-The message you wish to attach to file.
+This package is only purge the cache from cloudflare. If you want to purge the cache only in production mode. Then use https://www.npmjs.com/package/yargs.
+
+```shell
+gulp --type production
+```
+
+```javascript
+var cloudflare = require("gulp-cloudflare");
+var argv = require('yargs').argv;
+
+gulp.task('purge-cdn-cache', function() {
+	var options = {
+		token  : 'token',
+		email  : 'email',
+		domain : 'domain',
+		skip   : argv.type !== 'production'
+	};
+
+	cloudflare(options);
+})
+```
 
 
 ## License
