@@ -44,7 +44,7 @@ Required: false
 
 
 
-This package is only purge the cache from cloudflare. If you want to purge the cache only in production mode. Then use https://www.npmjs.com/package/yargs.
+This package will only purge the cache from cloudflare. If you want to purge the cache in production mode. Then use https://www.npmjs.com/package/yargs.
 
 ```shell
 gulp --type production
