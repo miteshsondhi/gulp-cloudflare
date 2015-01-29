@@ -30,12 +30,16 @@ module.exports = function (options) {
 		url  : API_URL,
 		form : params,
 		json : true
-	}, function CloudFlareResponse(err, res, body) {
+	}, function CloudFlareResponse(err, res) {
 		if(err) {
 			gutil.log(PLUGIN, gutil.colors.red(err.message));
 		}
-		if(body.result !== "success") {
-			gutil.log(PLUGIN, gutil.colors.red(body.msg));
+		if(res.statusCode !== 200) {
+			var errorMessage = "Not able to purge cache.";
+			if(res.body && res.body.msg) {
+				errorMessage = res.body.msg;
+			}
+			gutil.log(PLUGIN, gutil.colors.red(errorMessage));
 		}
 	});
 };
