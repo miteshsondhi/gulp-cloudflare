@@ -33,6 +33,11 @@ module.exports = function (options) {
 	}, function CloudFlareResponse(err, res) {
 		if(err) {
 			gutil.log(PLUGIN, gutil.colors.red(err.message));
+			return;
+		}
+		if(!res && !res.statusCode) {
+			gutil.log(PLUGIN, gutil.colors.red("Clodflare server not responding:("));
+			return;
 		}
 		if(res.statusCode !== 200) {
 			var errorMessage = "Not able to purge cache.";
