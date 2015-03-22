@@ -39,7 +39,7 @@ module.exports = function (options) {
 			gutil.log(PLUGIN, gutil.colors.red("Clodflare server not responding:("));
 			return;
 		}
-		if(res.statusCode !== 200) {
+		if(res.statusCode !== 200 || res.body.result === 'error') {
 			var errorMessage = "Not able to purge cache.";
 			if(res.body && res.body.msg) {
 				errorMessage = res.body.msg;
