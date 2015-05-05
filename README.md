@@ -41,6 +41,11 @@ Required: true
 #### options.skip
 Type: `Boolean`  
 Required: false
+#### options.action
+Type: `String`  
+Required: false
+Default: `fpurge_ts`
+Possible Values: `fpurge_ts`, `devmode`
 
 
 
@@ -59,6 +64,7 @@ gulp.task('purge-cdn-cache', function() {
 		token  : 'token',
 		email  : 'email',
 		domain : 'domain',
+		action : 'fpurge_ts',
 		skip   : argv.type !== 'production'
 	};
 

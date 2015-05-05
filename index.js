@@ -17,9 +17,23 @@ module.exports = function (options) {
 	if(options.skip) {
 		return;
 	}
+	var allowedActions = ["fpurge_ts", "devmode"];
+	var _contains = function (a, str) {
+	    for (var i = 0; i < a.length; i = i + 1) {
+	        if (a[i] === str) {
+	            return true;
+	        }
+	    }
+	    return false;
+	};
+	if(options.action && !_contains(allowedActions, options.action)) {
+		gutil.log(PLUGIN, gutil.colors.red(options.action + "is not a supported cloudflare action."));
+		gutil.log(PLUGIN, gutil.colors.yellow("supported actions : " + allowedActions.join(", ") ));
+		return;
+	}
 
 	var params = {
-		a     : "fpurge_ts",
+		a     : options.action || "fpurge_ts",
 		tkn   : options.token,
 		email : options.email,
 		z     : options.domain,
@@ -39,7 +53,7 @@ module.exports = function (options) {
 			gutil.log(PLUGIN, gutil.colors.red("Clodflare server not responding:("));
 			return;
 		}
-		if(res.statusCode !== 200 || res.body.result === 'error') {
+		if(res.statusCode !== 200 || res.body.result === "error") {
 			var errorMessage = "Not able to purge cache.";
 			if(res.body && res.body.msg) {
 				errorMessage = res.body.msg;
