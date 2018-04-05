@@ -2,6 +2,8 @@ var request = require("request");
 var log = require("fancy-log");
 var colors = require("ansi-colors");
 
+// require("request").debug = true;
+
 var API_URL = "https://www.cloudflare.com/api_json.html";
 var PLUGIN = "gulp-cloudflare";
 
@@ -12,6 +14,7 @@ module.exports = function(options) {
 		return;
 	}
 	if (!options.token || !options.email || !options.zone) {
+		log(options);
 		log(colors.red(PLUGIN + " " + "These options are not valid."));
 		return;
 	}
@@ -19,26 +22,26 @@ module.exports = function(options) {
 		return;
 	}
 
-	var options = {
-		token: "token",
-		email: "email",
-		zone: "zone"
-	};
 	var cloudflareOptions = {
 		url:
-			"https://api.cloudflare.com/client/v4/" +
+			"https://api.cloudflare.com/client/v4/zones/" +
 			options.zone +
 			"/purge_cache",
-		method: "GET",
+		method: "DELETE",
 		headers: {
 			"X-Auth-Email": options.email,
-			"X-Auth-Key": options.token
-			// "Content-Type": "application/json" // redundant
+			"X-Auth-Key": options.token,
+			"Content-Type": "application/json"
 		},
 		json: { purge_everything: true }
+		// json: true,
+		// body: { purge_everything: true }
+		// "content-length": Buffer.byteLength(
+		// 	JSON.stringify({ purge_everything: true })
+		// )
 	};
 
-	request.post(cloudflareOptions, function CloudFlareResponse(err, res) {
+	request(cloudflareOptions, function CloudFlareResponse(err, res) {
 		if (err) {
 			log(colors.red(PLUGIN + " " + err.message));
 			return;
@@ -48,15 +51,15 @@ module.exports = function(options) {
 			return;
 		}
 		if (res.statusCode !== 200 || res.body.result === "error") {
-			var errorMessage = "Not able to purge cache.";
+			var errorMessage = "Unable to purge cache.";
 			if (res.body && res.body.msg) {
 				errorMessage = res.body.msg;
 			}
 			log(colors.red(PLUGIN + " " + errorMessage));
 		}
 		if (res.body.success === true) {
-			var message = "Successfully purged cache.";
-			log(colors.red(PLUGIN + " " + message));
+			var message = "— Successfully purged cache. \n"; // + JSON.stringify(res.body);
+			log(colors.green(PLUGIN + " " + message));
 		}
 	});
 };

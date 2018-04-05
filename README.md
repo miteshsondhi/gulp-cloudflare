@@ -14,15 +14,15 @@ Then, add it to your `gulpfile.js`:
 ```javascript
 var cloudflare = require("gulp-cloudflare");
 
-gulp.task('purge-cdn-cache', function() {
-	var options = {
-		token  : 'token',
-		email  : 'email',
-		zone : 'zone'
-	};
-
-	cloudflare(options);
-})
+gulp.task("purgeCache", function(callback) {
+    var options = {
+        token: cloudflareAuthKey,
+        email: cloudflareEmail,
+        zone: cloudflareZone
+    };
+    cloudflare(options);
+    callback();
+});
 ```
 
 ## API
