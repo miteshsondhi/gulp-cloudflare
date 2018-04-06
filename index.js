@@ -2,9 +2,6 @@ var request = require("request");
 var log = require("fancy-log");
 var colors = require("ansi-colors");
 
-// require("request").debug = true;
-
-var API_URL = "https://www.cloudflare.com/api_json.html";
 var PLUGIN = "gulp-cloudflare";
 
 module.exports = function(options) {
@@ -33,12 +30,7 @@ module.exports = function(options) {
 			"X-Auth-Key": options.token,
 			"Content-Type": "application/json"
 		},
-		json: { purge_everything: true }
-		// json: true,
-		// body: { purge_everything: true }
-		// "content-length": Buffer.byteLength(
-		// 	JSON.stringify({ purge_everything: true })
-		// )
+		json: { purge_everything: true } // jshint ignore:line
 	};
 
 	request(cloudflareOptions, function CloudFlareResponse(err, res) {
