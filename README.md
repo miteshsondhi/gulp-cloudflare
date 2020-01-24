@@ -1,4 +1,4 @@
-## No longer maintained 
+## No longer maintained. Do let me know if anyone want this repo.
 
 # gulp-cloudflare
 > cloudflare plugin for [gulp](https://github.com/wearefractal/gulp)
