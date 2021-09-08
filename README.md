@@ -16,15 +16,15 @@ Then, add it to your `gulpfile.js`:
 ```javascript
 var cloudflare = require("gulp-cloudflare");
 
-gulp.task('purge-cdn-cache', function() {
-	var options = {
-		token  : 'token',
-		email  : 'email',
-		domain : 'domain'
-	};
-
-	cloudflare(options);
-})
+gulp.task("purgeCache", function(callback) {
+    var options = {
+        token: cloudflareAuthKey,
+        email: cloudflareEmail,
+        zone: cloudflareZone
+    };
+    cloudflare(options);
+    callback();
+});
 ```
 
 ## API
@@ -33,46 +33,17 @@ gulp.task('purge-cdn-cache', function() {
 
 #### options.token
 Type: `String`  
+cloudflare Auth-Key
 Required: true
 #### options.email
 Type: `String`  
 Required: true
-#### options.domain
+#### options.zone
 Type: `String`  
 Required: true
 #### options.skip
 Type: `Boolean`  
 Required: false
-#### options.action
-Type: `String`  
-Required: false
-Default: `fpurge_ts`
-Possible Values: `fpurge_ts`, `devmode`
-
-
-
-This package will only purge the cache from cloudflare. If you want to purge the cache in production mode. Then use https://www.npmjs.com/package/yargs.
-
-```shell
-gulp --type production
-```
-
-```javascript
-var cloudflare = require("gulp-cloudflare");
-var argv = require('yargs').argv;
-
-gulp.task('purge-cdn-cache', function() {
-	var options = {
-		token  : 'token',
-		email  : 'email',
-		domain : 'domain',
-		action : 'fpurge_ts',
-		skip   : argv.type !== 'production'
-	};
-
-	cloudflare(options);
-})
-```
 
 
 ## License
